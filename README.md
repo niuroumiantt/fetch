@@ -19,6 +19,8 @@ tools/replay.py       离线验包
 ```sh
 python3 fetch check-config                 # 五队配置
 python3 fetch check-config --team fetchstat
+python3 fetch run --team fetchstat --source-id fetchstat-eia-bootstrap \
+  --existing fixture.html --provenance 'local fixture'
 python3 fetch verify --team fetchstat path/to/delivery-...
 python3 fetch release --team fetchstat     # 版本清单（须干净工作区）
 python3 fetch sync-targets --upstream <inresearch checkout> \
@@ -26,6 +28,9 @@ python3 fetch sync-targets --upstream <inresearch checkout> \
 # 等价：PYTHONPATH=src python3 -m fetch …
 PYTHONPATH=src python3 -m unittest discover -s tests -v
 ```
+
+已登记的首批来源（`scheduled: false`）：EIA / Microsoft AR / LBNL 发布页 / Lambda 报价 / Astera Labs PT6162LX。
+
 
 
 ## 边界

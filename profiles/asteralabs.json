@@ -1,0 +1,12 @@
+{
+  "company_id": "asteralabs",
+  "name": "Astera Labs",
+  "allowed_hosts": [
+    "www.asteralabs.com"
+  ],
+  "target_hints": [
+    "P.pcie-switch.spec",
+    "P.retimer.spec"
+  ],
+  "notes": "Part pages under /product-details/<part>/ expose attribute lists; family pages under /products/<family>/ expose ordering tables. Attribute values are original vendor text, not reviewed parameter observations."
+}

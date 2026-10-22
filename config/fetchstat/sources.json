@@ -1,4 +1,20 @@
 {
   "team": "fetchstat",
-  "sources": []
+  "sources": [
+    {
+      "team": "fetchstat",
+      "id": "fetchstat-eia-bootstrap",
+      "publisher": "EIA",
+      "title": "Texas 工业电价 YTD",
+      "url": "https://www.eia.gov/electricity/monthly/epm_table_grapher.php?t=epmt_5_6_b",
+      "hosts": ["www.eia.gov"],
+      "native_id": "EPM-5.6.B",
+      "extension": "html",
+      "content_type": "text/html",
+      "adapter_version": "v1",
+      "cadence": "monthly",
+      "execution_host": "aws",
+      "scheduled": false
+    }
+  ]
 }

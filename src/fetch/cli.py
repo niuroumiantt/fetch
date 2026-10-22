@@ -9,7 +9,7 @@ import subprocess
 import sys
 
 from fetch import ROOT, TEAMS
-from fetch.config import check_all, load_sources
+from fetch.config import check_all, load_sources, select
 from fetch.contract.envelope import validate
 from fetch.core.failures import classify
 from fetch.core.http import now
@@ -27,9 +27,11 @@ def _release(team):
     paths = [
         ROOT / "src/fetch/core",
         ROOT / "src/fetch/contract",
+        ROOT / "src/fetch/collect.py",
         ROOT / "src/fetch/teams" / team,
         ROOT / "src/fetch/teams/base.py",
         ROOT / "config" / team,
+        ROOT / "profiles",
     ]
     files = sorted(
         path for base in paths if base.exists()
@@ -61,6 +63,15 @@ def main(argv=None):
     release = sub.add_parser("release", help="version manifest for one team")
     release.add_argument("--team", required=True, choices=TEAMS)
 
+    run = sub.add_parser("run", help="acquire registered source(s); no schedule")
+    run.add_argument("--team", required=True, choices=TEAMS)
+    run.add_argument("--source-id", help="one source; default = every registered source")
+    run.add_argument("--data-root")
+    run.add_argument("--existing", help="reuse local bytes instead of network")
+    run.add_argument("--provenance", help="required with --existing")
+    run.add_argument("--history-root", help="read-only old deliveries root")
+    run.add_argument("--no-robots", action="store_true", help="skip robots (tests/fixtures only)")
+
     sync = sub.add_parser("sync-targets", help="freeze pinned InResearch targets; no collection")
     sync.add_argument("--upstream", required=True)
     sync.add_argument("--ref", required=True, help="full reviewed InResearch commit SHA")
@@ -87,8 +98,20 @@ def main(argv=None):
             _print(report)
             return 0 if report["offline_valid"] else 1
         if args.command == "release":
-            load_sources(args.team)  # config must parse
+            load_sources(args.team)
             _print(_release(args.team))
+            return 0
+        if args.command == "run":
+            from fetch.collect import collect
+            sources = select(load_sources(args.team), args.source_id)
+            data = (Path(args.data_root).expanduser() if args.data_root
+                    else Path.home() / ".local/share/fetch" / args.team)
+            if args.existing and len(sources) != 1:
+                raise ValueError("--existing requires exactly one --source-id")
+            results = [collect(source, data, local=args.existing, provenance=args.provenance,
+                               history_root=args.history_root, respect_robots=not args.no_robots)
+                       for source in sources]
+            _print(results[0] if len(results) == 1 else results)
             return 0
         if args.command == "sync-targets":
             from fetch.targets import freeze

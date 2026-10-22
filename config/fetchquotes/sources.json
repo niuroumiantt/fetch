@@ -1,4 +1,20 @@
 {
   "team": "fetchquotes",
-  "sources": []
+  "sources": [
+    {
+      "team": "fetchquotes",
+      "id": "fetchquotes-lambda-bootstrap",
+      "publisher": "Lambda",
+      "title": "Lambda 1x H100 SXM 公开报价",
+      "url": "https://lambda.ai/pricing",
+      "hosts": ["lambda.ai"],
+      "native_id": "Lambda-instances-pricing",
+      "extension": "html",
+      "content_type": "text/html",
+      "adapter_version": "v1",
+      "cadence": "daily",
+      "execution_host": "aws",
+      "scheduled": false
+    }
+  ]
 }

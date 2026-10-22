@@ -1,4 +1,20 @@
 {
   "team": "fetchreports",
-  "sources": []
+  "sources": [
+    {
+      "team": "fetchreports",
+      "id": "fetchreports-lbnl-bootstrap",
+      "publisher": "LBNL",
+      "title": "2024 United States Data Center Energy Usage Report",
+      "url": "https://bies.lbl.gov/publications/2024-lbnl-data-center-energy-usage-report",
+      "hosts": ["bies.lbl.gov"],
+      "native_id": "DOI:10.71468/P1WC7Q:2024",
+      "extension": "html",
+      "content_type": "text/html",
+      "adapter_version": "v1",
+      "cadence": "weekly",
+      "execution_host": "aws",
+      "scheduled": false
+    }
+  ]
 }

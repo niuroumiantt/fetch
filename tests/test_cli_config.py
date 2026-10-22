@@ -17,7 +17,7 @@ class CliConfig(unittest.TestCase):
             "fetchspec", "fetchstat", "fetchfilings", "fetchreports", "fetchquotes"})
         for team, info in payload.items():
             self.assertEqual(info["provider_id"], team)
-            self.assertEqual(info["source_ids"], [])
+            self.assertGreaterEqual(len(info["source_ids"]), 1)
             self.assertFalse(info["scheduled"])
 
 

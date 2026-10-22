@@ -1,4 +1,20 @@
 {
   "team": "fetchfilings",
-  "sources": []
+  "sources": [
+    {
+      "team": "fetchfilings",
+      "id": "fetchfilings-microsoft-bootstrap",
+      "publisher": "Microsoft",
+      "title": "Microsoft 2025 年度现金 PP&E 支出",
+      "url": "https://www.microsoft.com/investor/reports/ar25/index.html",
+      "hosts": ["www.microsoft.com"],
+      "native_id": "MSFT-AR2025",
+      "extension": "html",
+      "content_type": "text/html",
+      "adapter_version": "v1",
+      "cadence": "weekly",
+      "execution_host": "aws",
+      "scheduled": false
+    }
+  ]
 }

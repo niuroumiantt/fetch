@@ -1,0 +1,13 @@
+{
+  "company_id": "asteralabs",
+  "seeds": [
+    {
+      "url": "https://www.asteralabs.com/product-details/pt6162lx/",
+      "targets": ["P.retimer.spec"]
+    },
+    {
+      "url": "https://www.asteralabs.com/products/scorpio-smart-fabric-switch/",
+      "targets": ["P.pcie-switch.spec"]
+    }
+  ]
+}

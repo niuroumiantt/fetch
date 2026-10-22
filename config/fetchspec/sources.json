@@ -1,4 +1,22 @@
 {
   "team": "fetchspec",
-  "sources": []
+  "sources": [
+    {
+      "team": "fetchspec",
+      "id": "fetchspec-asteralabs-pt6162lx",
+      "publisher": "Astera Labs",
+      "title": "Astera Labs PT6162LX product details",
+      "url": "https://www.asteralabs.com/product-details/pt6162lx/",
+      "hosts": ["www.asteralabs.com"],
+      "native_id": "asteralabs:pt6162lx",
+      "extension": "html",
+      "content_type": "text/html",
+      "adapter_version": "v1",
+      "cadence": "weekly",
+      "execution_host": "macmini",
+      "scheduled": false,
+      "language": "en",
+      "categories": ["Unclassified"]
+    }
+  ]
 }

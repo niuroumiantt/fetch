@@ -1,4 +1,8 @@
-"""Offline package validation. Never an HTTP receiver or adoption gate."""
+"""Offline package validation. Never an HTTP receiver or adoption gate.
+
+Accepts the production fetchspec 2.0 item shape (nested source, access_scope dict)
+and the observation-team shape (same envelope + optional observations.jsonl).
+"""
 from __future__ import annotations
 
 from datetime import date, datetime
@@ -14,7 +18,8 @@ from fetch.core.formats import FORMATS
 
 CONTRACT_VERSION = "2.0"
 SHA = re.compile(r"[a-f0-9]{64}\Z")
-REVISION = re.compile(r"[a-f0-9]{40}\Z")
+# Historical packages may record an uncommitted working tree as "<40hex>-dirty".
+REVISION = re.compile(r"[0-9a-f]{40}(?:-dirty)?\Z")
 DELIVERY_ID = re.compile(r"^[A-Za-z0-9._-]{1,160}$")
 MAX_METADATA = 4 * 1024 * 1024
 MAX_LINE = 1024 * 1024
@@ -105,11 +110,27 @@ def _rows(root: Path, relative: str):
                 yield index, None
 
 
-def _observation_errors(row, item_ids):
+def _source_url(item):
+    source = item.get("source")
+    if isinstance(source, dict) and _text(source.get("url")):
+        return source["url"]
+    if _text(item.get("url")):
+        return item["url"]
+    return None
+
+
+def _access_state(item):
+    scope = item.get("access_scope", "public")
+    if isinstance(scope, dict):
+        return scope.get("state")
+    return scope
+
+
+def _observation_errors(row, source_item_ids):
     if not isinstance(row, dict):
         return ["invalid JSON object"]
     errors = []
-    if not _text(row.get("observation_id")) or row.get("source_item_id") not in item_ids:
+    if not _text(row.get("observation_id")) or row.get("source_item_id") not in source_item_ids:
         errors.append("missing ID or dangling source reference")
     obj = row.get("object") if isinstance(row.get("object"), dict) else {}
     if (obj.get("type") not in OBJECT_TYPES or not _text(obj.get("name"))
@@ -154,7 +175,7 @@ def _observation_errors(row, item_ids):
 def validate(package):
     """Return a report. `offline_valid` is True only when every check passes."""
     root = Path(package).expanduser().resolve(strict=True)
-    errors, invalid, item_ids, paths = [], [], set(), {}
+    errors, invalid, source_item_ids, paths = [], [], set(), {}
     manifest = _json(root, "manifest.json")
     if (not isinstance(manifest, dict) or manifest.get("contract_version") != CONTRACT_VERSION
             or manifest.get("provider_id") not in TEAMS or not _text(manifest.get("delivery_id"))
@@ -171,35 +192,34 @@ def validate(package):
         try:
             if not isinstance(item, dict):
                 raise ValueError("item is not an object")
-            for key in ("item_id", "source_id", "source_item_id", "content_type", "format"):
-                if not _text(item.get(key)):
-                    raise ValueError(key + " missing")
-            if item["item_id"] in item_ids:
-                raise ValueError("duplicate item_id")
-            item_ids.add(item["item_id"])
-            if item["format"] not in FORMATS:
+            if not _text(item.get("source_item_id")) or not _text(item.get("content_type")):
+                raise ValueError("source_item_id/content_type missing")
+            if item["source_item_id"] in source_item_ids:
+                raise ValueError("duplicate source_item_id")
+            source_item_ids.add(item["source_item_id"])
+            fmt = item.get("format")
+            if not isinstance(fmt, str) or fmt.lower() not in FORMATS:
                 raise ValueError("unsupported format")
-            url = urlsplit(item.get("url", ""))
-            if url.scheme not in {"http", "https"} or not url.hostname or url.username or url.password:
+            fmt = fmt.lower()
+            url = _source_url(item)
+            parsed = urlsplit(url or "")
+            if parsed.scheme not in {"http", "https"} or not parsed.hostname or parsed.username or parsed.password:
                 raise ValueError("source URL missing or credentialed")
             if "retrieved_at" not in item or (item["retrieved_at"] is not None and not _timestamp(item["retrieved_at"])):
                 raise ValueError("retrieved_at invalid")
             if item["retrieved_at"] is None and (
                     not _timestamp(item.get("reused_at")) or not _text(item.get("provenance_id"))):
                 raise ValueError("unknown old download needs reuse time and provenance")
-            scope = item.get("access_scope", "public")
-            if isinstance(scope, dict):
-                scope = scope.get("state")
-            if scope not in {"public", "restricted", "unknown"}:
+            if _access_state(item) not in {"public", "restricted", "unknown"}:
                 raise ValueError("access_scope invalid")
             sha, relative = item.get("sha256"), item.get("path")
             if not isinstance(sha, str) or not SHA.fullmatch(sha):
                 raise ValueError("SHA invalid")
-            expected = "files/" + sha[:2] + "/" + sha + "." + item["format"]
+            expected = "files/" + sha[:2] + "/" + sha + "." + fmt
             if relative != expected:
                 raise ValueError("original must use content-addressed files/ path")
             path = _file(root, relative)
-            if not isinstance(item.get("bytes"), int) or isinstance(item["bytes"], bool) or item["bytes"] < 0:
+            if type(item.get("bytes")) is not int or item["bytes"] < 0:
                 raise ValueError("bytes invalid")
             if path.stat().st_size != item["bytes"]:
                 raise ValueError("declared bytes mismatch")
@@ -222,7 +242,7 @@ def validate(package):
     observation_ids, total = set(), 0
     for line, row in _rows(root, "observations.jsonl"):
         total += 1
-        issues = _observation_errors(row, item_ids)
+        issues = _observation_errors(row, source_item_ids)
         if isinstance(row, dict) and _text(row.get("observation_id")):
             if row["observation_id"] in observation_ids:
                 issues.append("duplicate observation_id")
