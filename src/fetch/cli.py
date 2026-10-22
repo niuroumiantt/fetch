@@ -79,6 +79,17 @@ def main(argv=None):
     sync.add_argument("--snapshot-root",
                       default=str(Path.home() / ".local/share/fetch/research-targets"))
 
+    drain_cmd = sub.add_parser(
+        "drain-requests",
+        help="claim website run queue on this collector; outbound crawl stays local")
+    drain_cmd.add_argument("--api-base", required=True,
+                           help="inresearch origin, e.g. https://www.inresearch.ai")
+    drain_cmd.add_argument("--token", help="collector bearer; or INRESEARCH_FETCH_RUNS_TOKEN")
+    drain_cmd.add_argument("--collector-host", help="short host id written into claim")
+    drain_cmd.add_argument("--data-root", help="override ~/.local/share/fetch/<team>")
+    drain_cmd.add_argument("--limit", type=int, default=20)
+    drain_cmd.add_argument("--no-robots", action="store_true", help="tests/fixtures only")
+
     args = parser.parse_args(argv)
     try:
         if args.command == "check-config":
@@ -116,6 +127,17 @@ def main(argv=None):
         if args.command == "sync-targets":
             from fetch.targets import freeze
             _print(freeze(args.upstream, args.ref, args.expected_sha256, args.snapshot_root))
+            return 0
+        if args.command == "drain-requests":
+            import os
+            from fetch.drain import drain
+            token = args.token or os.environ.get("INRESEARCH_FETCH_RUNS_TOKEN", "")
+            _print(drain(
+                args.api_base, token,
+                collector_host=args.collector_host,
+                data_root=args.data_root,
+                limit=args.limit,
+                respect_robots=not args.no_robots))
             return 0
         raise ValueError("unknown command")
     except (OSError, ValueError, KeyError, TypeError, subprocess.SubprocessError) as error:
