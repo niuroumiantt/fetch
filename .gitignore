@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.DS_Store
+/.state/
+/.data/
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+.env
+.env.*
