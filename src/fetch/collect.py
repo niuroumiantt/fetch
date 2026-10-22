@@ -55,10 +55,10 @@ def collect(source, data_root, *, local=None, provenance=None, revision=None, hi
             path, meta, created = store.put(data, fmt, retrieved_at=retrieved, provenance=provenance)
             sha = meta["sha256"]
             delivery_id = team + "-" + sha[:24] + "-" + source["adapter_version"]
+            from fetch.contract.envelope import validate
             if history_root:
                 legacy = Path(history_root).expanduser().resolve() / "deliveries" / delivery_id
                 if legacy.exists():
-                    from fetch.contract.envelope import validate
                     report = validate(legacy)
                     if not report["offline_valid"] or report["provider_id"] != team:
                         raise ValueError("legacy identity mismatch; preserve and investigate")
@@ -70,6 +70,20 @@ def collect(source, data_root, *, local=None, provenance=None, revision=None, hi
                                   "retrieved_at": retrieved})
                     return {"package": str(legacy), "replayed": True, "legacy_reused": True,
                             "acquisition_sha256": sha, **report}
+            # Same original bytes keep the same delivery_id; replay the existing valid
+            # envelope instead of rebuilding when collector revision/intent differs.
+            existing = store.root / "deliveries" / delivery_id
+            if existing.exists():
+                report = validate(existing)
+                if not report["offline_valid"] or report["provider_id"] != team:
+                    raise ValueError("delivery_id reused with different or invalid content")
+                store.record({"started_at": started, "finished_at": now(), "provider_id": team,
+                              "source_id": source["id"], "mode": "reuse" if local else "live",
+                              "outcome": "success", "delivery_id": delivery_id,
+                              "package_replayed": True, "collector_revision": revision,
+                              "sha256": sha, "retrieved_at": retrieved, "new_original": created})
+                return {"package": str(existing), "replayed": True,
+                        "acquisition_sha256": sha, "acquisition_retrieved_at": retrieved, **report}
             adapter = adapter_for(team, source.get("adapter"))
             rows = _extract(adapter, data, source, path, retrieved)
             if not rows:
