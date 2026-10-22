@@ -25,11 +25,14 @@ python3 fetch verify --team fetchstat path/to/delivery-...
 python3 fetch release --team fetchstat     # 版本清单（须干净工作区）
 python3 fetch sync-targets --upstream <inresearch checkout> \
   --ref <40位提交> --expected-sha256 <tco_targets.json SHA>
+# 认领网站「采集运行」队列并在本机出网抓取（不是网站进程爬外网）
+export INRESEARCH_FETCH_RUNS_TOKEN='…'   # 与网站私有 .fetch_runs_token 相同，≥32 字符
+python3 fetch drain-requests --api-base https://www.inresearch.ai --collector-host aws
 # 等价：PYTHONPATH=src python3 -m fetch …
 PYTHONPATH=src python3 -m unittest discover -s tests -v
 ```
 
-已登记的首批来源（`scheduled: false`）：EIA / Microsoft AR / LBNL 发布页 / Lambda 报价 / Astera Labs PT6162LX。
+已登记的首批来源（`scheduled: false`）：EIA / Microsoft AR / LBNL 发布页 / Lambda 报价 / Astera Labs PT6162LX。首期用手动或 cron 跑 `drain-requests`；systemd timer 属后续，页面显示「未装自动调度」。
 
 
 
