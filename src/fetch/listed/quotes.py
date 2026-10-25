@@ -39,8 +39,9 @@ def _number(value):
 
 def read_nasdaq(symbol, kind="info"):
     url = f"https://api.nasdaq.com/api/quote/{symbol}/{kind}?assetclass=stocks"
+    # Nasdaq's public JSON endpoint expects a browser-like UA (same as inresearch).
     req = Request(url, headers={
-        "User-Agent": USER_AGENT,
+        "User-Agent": "Mozilla/5.0",
         "Accept": "application/json",
         "Referer": "https://www.nasdaq.com/",
     })
