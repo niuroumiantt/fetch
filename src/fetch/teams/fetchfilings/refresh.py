@@ -6,8 +6,10 @@ local_ir companies.
 """
 from __future__ import annotations
 
+import subprocess
 from pathlib import Path
 
+from fetch import ROOT
 from fetch.collect import collect
 from fetch.core.failures import classify
 from fetch.core.http import now
@@ -16,12 +18,19 @@ from fetch.teams.fetchfilings.disclosures import write_disclosures
 from fetch.teams.fetchfilings.listed import load_listed, local_ir_companies
 
 
+def _head_revision():
+    """Committed HEAD only — weekly refresh must not block on a dirty worktree."""
+    return subprocess.check_output(
+        ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+
+
 def refresh(*, data_root=None, company_id=None, listed_path=None, respect_robots=True,
             collect_filings=True, prior_disclosures=None):
     root = Path(data_root).expanduser() if data_root else Path.home() / ".local/share/fetch/fetchfilings"
     started = now()
     listed = load_listed(listed_path)
     cadence = (listed.get("policy") or {}).get("scheduled_phase") or "weekly"
+    revision = _head_revision()
 
     discovery = discover(
         data_root=root, company_id=company_id, listed_path=listed_path,
@@ -32,7 +41,7 @@ def refresh(*, data_root=None, company_id=None, listed_path=None, respect_robots
         sources = discovered_sources(root, company_id=company_id)
         for source in sources:
             try:
-                result = collect(source, root, respect_robots=respect_robots)
+                result = collect(source, root, respect_robots=respect_robots, revision=revision)
                 collections.append({
                     "source_id": source["id"],
                     "outcome": "success",
