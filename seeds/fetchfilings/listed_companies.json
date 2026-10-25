@@ -1,0 +1,689 @@
+{
+  "version": 1,
+  "purpose": "fetchfilings 第一阶段公司宇宙：companies.json 中有 ticker 或 CIK 的上市主体；持续披露采集从此名单出发。",
+  "source": "data/companies.json",
+  "policy": {
+    "universe": "listed_in_companies_registry",
+    "sec_edgar_requires": "cik",
+    "local_ir_when": "ticker_without_sec_cik",
+    "non_listed": "excluded_until_ticker_or_cik_registered",
+    "continuous": true,
+    "scheduled_phase": "not_enabled_yet"
+  },
+  "counts": {
+    "listed_total": 50,
+    "sec_edgar": 40,
+    "local_ir": 10
+  },
+  "records": [
+    {
+      "company_id": "aep",
+      "name": "American Electric Power",
+      "name_cn": "美国电力",
+      "ticker": "NASDAQ:AEP",
+      "cik": "0000004904",
+      "hq_country": "US",
+      "ir_url": null,
+      "channel": "sec_edgar",
+      "roles": [
+        "utility"
+      ]
+    },
+    {
+      "company_id": "alibaba",
+      "name": "Alibaba Cloud",
+      "name_cn": "阿里云",
+      "ticker": "NYSE:BABA",
+      "cik": "0001577552",
+      "hq_country": "CN",
+      "ir_url": null,
+      "channel": "sec_edgar",
+      "roles": [
+        "hyperscaler"
+      ]
+    },
+    {
+      "company_id": "alphabet-google",
+      "name": "Alphabet / Google",
+      "name_cn": "谷歌",
+      "ticker": "NASDAQ:GOOGL",
+      "cik": "0001652044",
+      "hq_country": "US",
+      "ir_url": "https://abc.xyz/investor/",
+      "channel": "sec_edgar",
+      "roles": [
+        "hyperscaler",
+        "chip"
+      ]
+    },
+    {
+      "company_id": "amazon",
+      "name": "Amazon / AWS",
+      "name_cn": "亚马逊",
+      "ticker": "NASDAQ:AMZN",
+      "cik": "0001018724",
+      "hq_country": "US",
+      "ir_url": "https://ir.aboutamazon.com",
+      "channel": "sec_edgar",
+      "roles": [
+        "hyperscaler",
+        "chip"
+      ]
+    },
+    {
+      "company_id": "amd",
+      "name": "AMD",
+      "name_cn": "超威",
+      "ticker": "NASDAQ:AMD",
+      "cik": "0000002488",
+      "hq_country": "US",
+      "ir_url": "https://ir.amd.com",
+      "channel": "sec_edgar",
+      "roles": [
+        "chip"
+      ]
+    },
+    {
+      "company_id": "applied-digital",
+      "name": "Applied Digital Corporation",
+      "name_cn": "Applied Digital",
+      "ticker": "NASDAQ:APLD",
+      "cik": "0001144879",
+      "hq_country": "US",
+      "ir_url": "https://ir.applieddigital.com",
+      "channel": "sec_edgar",
+      "roles": [
+        "developer",
+        "operator"
+      ]
+    },
+    {
+      "company_id": "ares-management",
+      "name": "Ares Management Corporation",
+      "name_cn": "Ares",
+      "ticker": "NYSE:ARES",
+      "cik": "0001176948",
+      "hq_country": "US",
+      "ir_url": "https://www.aresmgmt.com/",
+      "channel": "sec_edgar",
+      "roles": [
+        "investor"
+      ]
+    },
+    {
+      "company_id": "black-hills",
+      "name": "Black Hills Corp.",
+      "name_cn": "Black Hills",
+      "ticker": "NYSE:BKH",
+      "cik": "0001130464",
+      "hq_country": "US",
+      "ir_url": "https://ir.blackhillscorp.com",
+      "channel": "sec_edgar",
+      "roles": [
+        "utility"
+      ]
+    },
+    {
+      "company_id": "blackrock",
+      "name": "BlackRock (AIP)",
+      "name_cn": "贝莱德",
+      "ticker": "NYSE:BLK",
+      "cik": "0002012383",
+      "hq_country": "US",
+      "ir_url": null,
+      "channel": "sec_edgar",
+      "roles": [
+        "capital"
+      ]
+    },
+    {
+      "company_id": "blackstone",
+      "name": "Blackstone",
+      "name_cn": "黑石",
+      "ticker": "NYSE:BX",
+      "cik": "0001393818",
+      "hq_country": "US",
+      "ir_url": "https://ir.blackstone.com",
+      "channel": "sec_edgar",
+      "roles": [
+        "capital"
+      ]
+    },
+    {
+      "company_id": "bloom-energy",
+      "name": "Bloom Energy",
+      "name_cn": "Bloom Energy",
+      "ticker": "NYSE:BE",
+      "cik": "0001664703",
+      "hq_country": "US",
+      "ir_url": null,
+      "channel": "sec_edgar",
+      "roles": [
+        "utility",
+        "electrical"
+      ]
+    },
+    {
+      "company_id": "blue-owl",
+      "name": "Blue Owl Capital",
+      "name_cn": "Blue Owl",
+      "ticker": "NYSE:OWL",
+      "cik": "0001823945",
+      "hq_country": "US",
+      "ir_url": null,
+      "channel": "sec_edgar",
+      "roles": [
+        "capital"
+      ]
+    },
+    {
+      "company_id": "broadcom",
+      "name": "Broadcom",
+      "name_cn": "博通",
+      "ticker": "NASDAQ:AVGO",
+      "cik": "0001730168",
+      "hq_country": "US",
+      "ir_url": null,
+      "channel": "sec_edgar",
+      "roles": [
+        "chip",
+        "network"
+      ]
+    },
+    {
+      "company_id": "brookfield",
+      "name": "Brookfield",
+      "name_cn": "布鲁克菲尔德",
+      "ticker": "NYSE:BN",
+      "cik": "0001001085",
+      "hq_country": "CA",
+      "ir_url": "https://bn.brookfield.com",
+      "channel": "sec_edgar",
+      "roles": [
+        "capital"
+      ]
+    },
+    {
+      "company_id": "cambricon",
+      "name": "Cambricon",
+      "name_cn": "寒武纪",
+      "ticker": "SSE:688256",
+      "cik": null,
+      "hq_country": "CN",
+      "ir_url": "https://www.cambricon.com/investor",
+      "channel": "local_ir",
+      "roles": [
+        "chip"
+      ]
+    },
+    {
+      "company_id": "caterpillar",
+      "name": "Caterpillar",
+      "name_cn": "卡特彼勒",
+      "ticker": "NYSE:CAT",
+      "cik": "0000018230",
+      "hq_country": "US",
+      "ir_url": null,
+      "channel": "sec_edgar",
+      "roles": [
+        "electrical"
+      ]
+    },
+    {
+      "company_id": "celestica",
+      "name": "Celestica",
+      "name_cn": "天弘",
+      "ticker": "NYSE:CLS",
+      "cik": "0001030894",
+      "hq_country": "CA",
+      "ir_url": null,
+      "channel": "sec_edgar",
+      "roles": [
+        "server-odm",
+        "network"
+      ]
+    },
+    {
+      "company_id": "constellation-energy",
+      "name": "Constellation Energy",
+      "name_cn": "星座能源",
+      "ticker": "NASDAQ:CEG",
+      "cik": "0001868275",
+      "hq_country": "US",
+      "ir_url": null,
+      "channel": "sec_edgar",
+      "roles": [
+        "utility"
+      ]
+    },
+    {
+      "company_id": "coreweave",
+      "name": "CoreWeave",
+      "name_cn": "CoreWeave",
+      "ticker": "NASDAQ:CRWV",
+      "cik": "0001769628",
+      "hq_country": "US",
+      "ir_url": "https://investors.coreweave.com",
+      "channel": "sec_edgar",
+      "roles": [
+        "neocloud"
+      ]
+    },
+    {
+      "company_id": "cummins",
+      "name": "Cummins",
+      "name_cn": "康明斯",
+      "ticker": "NYSE:CMI",
+      "cik": "0000026172",
+      "hq_country": "US",
+      "ir_url": null,
+      "channel": "sec_edgar",
+      "roles": [
+        "electrical"
+      ]
+    },
+    {
+      "company_id": "delta-electronics",
+      "name": "Delta Electronics",
+      "name_cn": "台达电子",
+      "ticker": "TWSE:2308",
+      "cik": null,
+      "hq_country": "TW",
+      "ir_url": "https://www.deltaww.com/en-US/investors",
+      "channel": "local_ir",
+      "roles": [
+        "cooling",
+        "electrical"
+      ]
+    },
+    {
+      "company_id": "digital-realty",
+      "name": "Digital Realty",
+      "name_cn": "数字房地产信托",
+      "ticker": "NYSE:DLR",
+      "cik": "0001297996",
+      "hq_country": "US",
+      "ir_url": "https://investor.digitalrealty.com",
+      "channel": "sec_edgar",
+      "roles": [
+        "colo"
+      ]
+    },
+    {
+      "company_id": "eaton",
+      "name": "Eaton / Boyd Thermal",
+      "name_cn": "伊顿",
+      "ticker": "NYSE:ETN",
+      "cik": "0001551182",
+      "hq_country": "US",
+      "ir_url": "https://www.eaton.com/us/en-us/company/investor-relations.html",
+      "channel": "sec_edgar",
+      "roles": [
+        "electrical",
+        "cooling"
+      ]
+    },
+    {
+      "company_id": "ecolab",
+      "name": "Ecolab / CoolIT",
+      "name_cn": "艺康",
+      "ticker": "NYSE:ECL",
+      "cik": "0000031462",
+      "hq_country": "US",
+      "ir_url": "https://investor.ecolab.com",
+      "channel": "sec_edgar",
+      "roles": [
+        "cooling"
+      ]
+    },
+    {
+      "company_id": "equinix",
+      "name": "Equinix",
+      "name_cn": "易昆尼克斯",
+      "ticker": "NASDAQ:EQIX",
+      "cik": "0001101239",
+      "hq_country": "US",
+      "ir_url": "https://investor.equinix.com",
+      "channel": "sec_edgar",
+      "roles": [
+        "colo"
+      ]
+    },
+    {
+      "company_id": "gds",
+      "name": "GDS Holdings",
+      "name_cn": "万国数据",
+      "ticker": "NASDAQ:GDS",
+      "cik": "0001526125",
+      "hq_country": "CN",
+      "ir_url": "https://investors.gds-services.com",
+      "channel": "sec_edgar",
+      "roles": [
+        "colo"
+      ]
+    },
+    {
+      "company_id": "ge-vernova",
+      "name": "GE Vernova",
+      "name_cn": "GE 弗诺瓦",
+      "ticker": "NYSE:GEV",
+      "cik": "0001996810",
+      "hq_country": "US",
+      "ir_url": "https://www.gevernova.com/investors",
+      "channel": "sec_edgar",
+      "roles": [
+        "electrical",
+        "utility"
+      ]
+    },
+    {
+      "company_id": "hyosung",
+      "name": "Hyosung Heavy Industries",
+      "name_cn": "晓星重工",
+      "ticker": "KRX:298040",
+      "cik": null,
+      "hq_country": "KR",
+      "ir_url": null,
+      "channel": "local_ir",
+      "roles": [
+        "electrical"
+      ]
+    },
+    {
+      "company_id": "johnson-controls",
+      "name": "Johnson Controls",
+      "name_cn": "江森自控",
+      "ticker": "NYSE:JCI",
+      "cik": "0000833444",
+      "hq_country": "IE",
+      "ir_url": null,
+      "channel": "sec_edgar",
+      "roles": [
+        "cooling",
+        "electrical"
+      ]
+    },
+    {
+      "company_id": "kddi",
+      "name": "KDDI / Telehouse",
+      "name_cn": "KDDI",
+      "ticker": "TYO:9433",
+      "cik": "0001106215",
+      "hq_country": "JP",
+      "ir_url": "https://www.kddi.com/english/corporate/ir/",
+      "channel": "sec_edgar",
+      "roles": [
+        "colo"
+      ]
+    },
+    {
+      "company_id": "kkr",
+      "name": "KKR / GIP",
+      "name_cn": "KKR",
+      "ticker": "NYSE:KKR",
+      "cik": "0001404912",
+      "hq_country": "US",
+      "ir_url": "https://ir.kkr.com",
+      "channel": "sec_edgar",
+      "roles": [
+        "capital"
+      ]
+    },
+    {
+      "company_id": "meta",
+      "name": "Meta",
+      "name_cn": "Meta",
+      "ticker": "NASDAQ:META",
+      "cik": "0001326801",
+      "hq_country": "US",
+      "ir_url": "https://investor.atmeta.com",
+      "channel": "sec_edgar",
+      "roles": [
+        "hyperscaler",
+        "chip"
+      ]
+    },
+    {
+      "company_id": "microsoft",
+      "name": "Microsoft",
+      "name_cn": "微软",
+      "ticker": "NASDAQ:MSFT",
+      "cik": "0000789019",
+      "hq_country": "US",
+      "ir_url": "https://www.microsoft.com/en-us/investor",
+      "channel": "sec_edgar",
+      "roles": [
+        "hyperscaler",
+        "chip"
+      ]
+    },
+    {
+      "company_id": "mitsubishi-power",
+      "name": "Mitsubishi Power (MHI)",
+      "name_cn": "三菱重工电力",
+      "ticker": "TYO:7011",
+      "cik": null,
+      "hq_country": "JP",
+      "ir_url": null,
+      "channel": "local_ir",
+      "roles": [
+        "electrical",
+        "utility"
+      ]
+    },
+    {
+      "company_id": "modine-airedale",
+      "name": "Modine / Airedale",
+      "name_cn": "摩丁制造",
+      "ticker": "NYSE:MOD",
+      "cik": "0000067347",
+      "hq_country": "US",
+      "ir_url": null,
+      "channel": "sec_edgar",
+      "roles": [
+        "cooling"
+      ]
+    },
+    {
+      "company_id": "munters",
+      "name": "Munters",
+      "name_cn": "蒙特",
+      "ticker": "STO:MTRS",
+      "cik": null,
+      "hq_country": "SE",
+      "ir_url": null,
+      "channel": "local_ir",
+      "roles": [
+        "cooling"
+      ]
+    },
+    {
+      "company_id": "nebius",
+      "name": "Nebius",
+      "name_cn": "Nebius",
+      "ticker": "NASDAQ:NBIS",
+      "cik": "0001513845",
+      "hq_country": "NL",
+      "ir_url": "https://nebius.com/investors",
+      "channel": "sec_edgar",
+      "roles": [
+        "neocloud"
+      ]
+    },
+    {
+      "company_id": "ntt-data",
+      "name": "NTT DATA",
+      "name_cn": "NTT数据",
+      "ticker": "TYO:9613",
+      "cik": null,
+      "hq_country": "JP",
+      "ir_url": "https://www.nttdata.com/global/en/about-us/ir",
+      "channel": "local_ir",
+      "roles": [
+        "colo"
+      ]
+    },
+    {
+      "company_id": "nvidia",
+      "name": "NVIDIA",
+      "name_cn": "英伟达",
+      "ticker": "NASDAQ:NVDA",
+      "cik": "0001045810",
+      "hq_country": "US",
+      "ir_url": "https://investor.nvidia.com",
+      "channel": "sec_edgar",
+      "roles": [
+        "chip",
+        "capital",
+        "network"
+      ]
+    },
+    {
+      "company_id": "oracle",
+      "name": "Oracle",
+      "name_cn": "甲骨文",
+      "ticker": "NYSE:ORCL",
+      "cik": "0001341439",
+      "hq_country": "US",
+      "ir_url": "https://investor.oracle.com",
+      "channel": "sec_edgar",
+      "roles": [
+        "hyperscaler"
+      ]
+    },
+    {
+      "company_id": "powercompute",
+      "name": "PowerCompute",
+      "name_cn": "PowerCompute",
+      "ticker": "NASDAQ:PWCM",
+      "cik": "0001640384",
+      "hq_country": "US",
+      "ir_url": null,
+      "channel": "sec_edgar",
+      "roles": []
+    },
+    {
+      "company_id": "rolls-royce",
+      "name": "Rolls-Royce (mtu)",
+      "name_cn": "罗尔斯-罗伊斯",
+      "ticker": "LON:RR",
+      "cik": null,
+      "hq_country": "GB",
+      "ir_url": null,
+      "channel": "local_ir",
+      "roles": [
+        "electrical"
+      ]
+    },
+    {
+      "company_id": "schneider-electric",
+      "name": "Schneider Electric / Motivair",
+      "name_cn": "施耐德电气",
+      "ticker": "EPA:SU",
+      "cik": null,
+      "hq_country": "FR",
+      "ir_url": "https://www.se.com/ww/en/about-us/investor-relations/",
+      "channel": "local_ir",
+      "roles": [
+        "electrical",
+        "cooling"
+      ]
+    },
+    {
+      "company_id": "siemens-energy",
+      "name": "Siemens Energy",
+      "name_cn": "西门子能源",
+      "ticker": "ETR:ENR",
+      "cik": "0001830056",
+      "hq_country": "DE",
+      "ir_url": null,
+      "channel": "sec_edgar",
+      "roles": [
+        "electrical",
+        "utility"
+      ]
+    },
+    {
+      "company_id": "supermicro",
+      "name": "Supermicro",
+      "name_cn": "超微",
+      "ticker": "NASDAQ:SMCI",
+      "cik": "0001375365",
+      "hq_country": "美国",
+      "ir_url": "https://ir.supermicro.com/",
+      "channel": "sec_edgar",
+      "roles": [
+        "server-odm"
+      ]
+    },
+    {
+      "company_id": "trane",
+      "name": "Trane Technologies / LiquidStack",
+      "name_cn": "特灵科技",
+      "ticker": "NYSE:TT",
+      "cik": "0001466258",
+      "hq_country": "IE",
+      "ir_url": "https://investors.tranetechnologies.com",
+      "channel": "sec_edgar",
+      "roles": [
+        "cooling"
+      ]
+    },
+    {
+      "company_id": "vertiv",
+      "name": "Vertiv / CoolTera",
+      "name_cn": "维谛技术",
+      "ticker": "NYSE:VRT",
+      "cik": "0001674101",
+      "hq_country": "US",
+      "ir_url": "https://investors.vertiv.com",
+      "channel": "sec_edgar",
+      "roles": [
+        "cooling",
+        "electrical"
+      ]
+    },
+    {
+      "company_id": "vnet",
+      "name": "VNET Group",
+      "name_cn": "世纪互联",
+      "ticker": "NASDAQ:VNET",
+      "cik": "0001508475",
+      "hq_country": "CN",
+      "ir_url": "https://ir.vnet.com",
+      "channel": "sec_edgar",
+      "roles": [
+        "colo"
+      ]
+    },
+    {
+      "company_id": "wartsila",
+      "name": "Wärtsilä",
+      "name_cn": "瓦锡兰",
+      "ticker": "HEL:WRT1V",
+      "cik": null,
+      "hq_country": "FI",
+      "ir_url": null,
+      "channel": "local_ir",
+      "roles": [
+        "electrical",
+        "utility"
+      ]
+    },
+    {
+      "company_id": "zhongtian-technology",
+      "name": "Jiangsu Zhongtian Technology Co., Ltd.",
+      "name_cn": "江苏中天科技股份有限公司",
+      "ticker": "600522.SS",
+      "cik": null,
+      "hq_country": "CN",
+      "ir_url": "https://www.ztt.cn/listingProcess/119.html",
+      "channel": "local_ir",
+      "roles": [
+        "developer",
+        "network",
+        "electrical"
+      ]
+    }
+  ]
+}
