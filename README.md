@@ -28,13 +28,14 @@ python3 fetch sync-targets --upstream <inresearch checkout> \
 # 认领网站「采集运行」队列并在本机出网抓取（不是网站进程爬外网）
 export INRESEARCH_FETCH_RUNS_TOKEN='…'   # 与网站私有 .fetch_runs_token 相同，≥32 字符
 python3 fetch drain-requests --api-base https://www.inresearch.ai --collector-host aws
-# fetchfilings 上市主体周更：发现 + 取回最新定期披露 + 写 disclosures 投影
-python3 fetch refresh --team fetchfilings
+# 上市 50 家周更：filings + 美股行情缓存 + IR 页（多车道）
+python3 fetch refresh --team listed
+python3 fetch refresh --team fetchfilings   # 仅披露车道
 # 等价：PYTHONPATH=src python3 -m fetch …
 PYTHONPATH=src python3 -m unittest discover -s tests -v
 ```
 
-已登记的首批来源（`scheduled: false`）：EIA / Microsoft AR / LBNL 发布页 / Lambda 报价 / Astera Labs PT6162LX。网站队列用 `drain-requests`（M5 launchd 每 2 分钟）。fetchfilings 上市 50 家周更用 `refresh`（`deploy/m5/fetchfilings-weekly.plist`，周日 03:00）。
+已登记的首批来源（`scheduled: false`）：EIA / Microsoft AR / LBNL 发布页 / Lambda 报价 / Astera Labs PT6162LX。网站队列用 `drain-requests`（M5 launchd 每 2 分钟）。上市 50 家周更用 `refresh --team listed`（`deploy/m5/listed-weekly.plist`，周日 03:15；filings/行情/IR 同跑）。
 
 
 

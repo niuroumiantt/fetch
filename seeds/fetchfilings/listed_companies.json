@@ -14,7 +14,49 @@
       "weekday": "sunday",
       "hour_local": 3,
       "host": "macmini",
-      "command": "fetch refresh --team fetchfilings"
+      "command": "fetch refresh --team listed",
+      "minute": 15
+    },
+    "lanes": {
+      "filings": {
+        "team": "fetchfilings",
+        "cadence": "weekly",
+        "status": "enabled"
+      },
+      "equity_quotes": {
+        "team": "listed",
+        "cadence": "weekly",
+        "status": "enabled",
+        "scope": "NASDAQ_NYSE_tickers"
+      },
+      "investor_relations": {
+        "team": "listed",
+        "cadence": "weekly",
+        "status": "enabled",
+        "scope": "https_ir_url"
+      },
+      "product_specs": {
+        "team": "fetchspec",
+        "cadence": "weekly",
+        "status": "status_only",
+        "scope": "catalog_overlap"
+      },
+      "gpu_quotes": {
+        "team": "fetchquotes",
+        "cadence": "daily",
+        "status": "bootstrap_only",
+        "note": "Lambda bootstrap; neocloud in listed are future"
+      },
+      "public_stats": {
+        "team": "fetchstat",
+        "cadence": "monthly",
+        "status": "not_company_scoped"
+      },
+      "research_pubs": {
+        "team": "fetchreports",
+        "cadence": "weekly",
+        "status": "not_company_scoped"
+      }
     }
   },
   "counts": {
@@ -88,7 +130,8 @@
       "channel": "sec_edgar",
       "roles": [
         "chip"
-      ]
+      ],
+      "website": "amd.com"
     },
     {
       "company_id": "applied-digital",
@@ -168,7 +211,8 @@
       "roles": [
         "utility",
         "electrical"
-      ]
+      ],
+      "website": "bloomenergy.com"
     },
     {
       "company_id": "blue-owl",
@@ -195,7 +239,8 @@
       "roles": [
         "chip",
         "network"
-      ]
+      ],
+      "website": "broadcom.com"
     },
     {
       "company_id": "brookfield",
@@ -221,7 +266,8 @@
       "channel": "local_ir",
       "roles": [
         "chip"
-      ]
+      ],
+      "website": "cambricon.com"
     },
     {
       "company_id": "caterpillar",
@@ -234,7 +280,8 @@
       "channel": "sec_edgar",
       "roles": [
         "electrical"
-      ]
+      ],
+      "website": "cat.com"
     },
     {
       "company_id": "celestica",
@@ -274,7 +321,8 @@
       "channel": "sec_edgar",
       "roles": [
         "neocloud"
-      ]
+      ],
+      "website": "https://www.coreweave.com"
     },
     {
       "company_id": "cummins",
@@ -287,7 +335,8 @@
       "channel": "sec_edgar",
       "roles": [
         "electrical"
-      ]
+      ],
+      "website": "cummins.com"
     },
     {
       "company_id": "delta-electronics",
@@ -301,7 +350,8 @@
       "roles": [
         "cooling",
         "electrical"
-      ]
+      ],
+      "website": "deltaww.com"
     },
     {
       "company_id": "digital-realty",
@@ -328,7 +378,8 @@
       "roles": [
         "electrical",
         "cooling"
-      ]
+      ],
+      "website": "eaton.com"
     },
     {
       "company_id": "ecolab",
@@ -502,7 +553,8 @@
       "channel": "local_ir",
       "roles": [
         "cooling"
-      ]
+      ],
+      "website": "munters.com"
     },
     {
       "company_id": "nebius",
@@ -543,7 +595,8 @@
         "chip",
         "capital",
         "network"
-      ]
+      ],
+      "website": "nvidia.com"
     },
     {
       "company_id": "oracle",
@@ -621,7 +674,8 @@
       "channel": "sec_edgar",
       "roles": [
         "server-odm"
-      ]
+      ],
+      "website": "supermicro.com"
     },
     {
       "company_id": "trane",
@@ -648,7 +702,8 @@
       "roles": [
         "cooling",
         "electrical"
-      ]
+      ],
+      "website": "vertiv.com"
     },
     {
       "company_id": "vnet",

@@ -104,12 +104,17 @@ def main(argv=None):
 
     refresh_cmd = sub.add_parser(
         "refresh",
-        help="weekly discover+collect+disclosures for listed filings; no adoption")
-    refresh_cmd.add_argument("--team", required=True, choices=("fetchfilings",))
+        help="weekly listed-universe refresh (filings/quotes/IR) or single-team filings")
+    refresh_cmd.add_argument("--team", required=True, choices=("fetchfilings", "listed"))
+    refresh_cmd.add_argument("--listed", action="store_true",
+                             help="same as --team listed (filings+quotes+IR+specs status)")
     refresh_cmd.add_argument("--company-id", help="one listed company_id; default = full universe")
-    refresh_cmd.add_argument("--data-root", help="override ~/.local/share/fetch/fetchfilings")
+    refresh_cmd.add_argument("--data-root",
+                             help="override ~/.local/share/fetch/listed or .../fetchfilings")
+    refresh_cmd.add_argument("--lanes",
+                             help="comma list for --team listed: filings,quotes,ir,specs")
     refresh_cmd.add_argument("--discover-only", action="store_true",
-                             help="skip primary-document collect")
+                             help="skip primary-document / IR collect")
     refresh_cmd.add_argument("--prior-disclosures",
                              help="merge history from an existing company_disclosures.json")
     refresh_cmd.add_argument("--no-robots", action="store_true", help="tests/fixtures only")
@@ -183,13 +188,26 @@ def main(argv=None):
                 respect_robots=not args.no_robots))
             return 0
         if args.command == "refresh":
-            from fetch.teams.fetchfilings.refresh import refresh
-            _print(refresh(
-                data_root=args.data_root,
-                company_id=args.company_id,
-                respect_robots=not args.no_robots,
-                collect_filings=not args.discover_only,
-                prior_disclosures=args.prior_disclosures))
+            team = "listed" if args.listed else args.team
+            if team == "listed":
+                from fetch.listed.refresh import refresh_listed
+                lanes = None
+                if args.lanes:
+                    lanes = tuple(part.strip() for part in args.lanes.split(",") if part.strip())
+                _print(refresh_listed(
+                    data_root=args.data_root,
+                    company_id=args.company_id,
+                    respect_robots=not args.no_robots,
+                    prior_disclosures=args.prior_disclosures,
+                    lanes=lanes))
+            else:
+                from fetch.teams.fetchfilings.refresh import refresh
+                _print(refresh(
+                    data_root=args.data_root,
+                    company_id=args.company_id,
+                    respect_robots=not args.no_robots,
+                    collect_filings=not args.discover_only,
+                    prior_disclosures=args.prior_disclosures))
             return 0
         raise ValueError("unknown command")
     except (OSError, ValueError, KeyError, TypeError, subprocess.SubprocessError) as error:
