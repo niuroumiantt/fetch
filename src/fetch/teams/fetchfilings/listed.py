@@ -30,3 +30,8 @@ def sec_edgar_companies(path=None):
             raise ValueError("sec_edgar company missing cik: " + row.get("company_id", "?"))
         rows.append(row)
     return rows
+
+
+def local_ir_companies(path=None):
+    """Listed companies without SEC CIK; official IR / local exchange only."""
+    return [row for row in load_listed(path)["records"] if row.get("channel") == "local_ir"]
