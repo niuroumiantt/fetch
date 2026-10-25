@@ -32,6 +32,7 @@ def _release(team):
         ROOT / "src/fetch/teams/base.py",
         ROOT / "config" / team,
         ROOT / "profiles",
+        ROOT / "seeds" / team,
     ]
     files = sorted(
         path for base in paths if base.exists()
@@ -66,6 +67,9 @@ def main(argv=None):
     run = sub.add_parser("run", help="acquire registered source(s); no schedule")
     run.add_argument("--team", required=True, choices=TEAMS)
     run.add_argument("--source-id", help="one source; default = every registered source")
+    run.add_argument("--discovered", action="store_true",
+                     help="collect from discoveries/current.json instead of config")
+    run.add_argument("--company-id", help="with --discovered, limit to one company_id")
     run.add_argument("--data-root")
     run.add_argument("--existing", help="reuse local bytes instead of network")
     run.add_argument("--provenance", help="required with --existing")
@@ -89,6 +93,14 @@ def main(argv=None):
     drain_cmd.add_argument("--data-root", help="override ~/.local/share/fetch/<team>")
     drain_cmd.add_argument("--limit", type=int, default=20)
     drain_cmd.add_argument("--no-robots", action="store_true", help="tests/fixtures only")
+
+    discover_cmd = sub.add_parser(
+        "discover",
+        help="discover latest SEC periodic filings for listed companies; no adoption")
+    discover_cmd.add_argument("--team", required=True, choices=("fetchfilings",))
+    discover_cmd.add_argument("--company-id", help="one listed company_id; default = all sec_edgar")
+    discover_cmd.add_argument("--data-root", help="override ~/.local/share/fetch/fetchfilings")
+    discover_cmd.add_argument("--no-robots", action="store_true", help="tests/fixtures only")
 
     args = parser.parse_args(argv)
     try:
@@ -114,9 +126,21 @@ def main(argv=None):
             return 0
         if args.command == "run":
             from fetch.collect import collect
-            sources = select(load_sources(args.team), args.source_id)
             data = (Path(args.data_root).expanduser() if args.data_root
                     else Path.home() / ".local/share/fetch" / args.team)
+            if args.discovered:
+                if args.team != "fetchfilings":
+                    raise ValueError("--discovered is only for fetchfilings")
+                if args.source_id:
+                    raise ValueError("--discovered cannot combine with --source-id")
+                from fetch.teams.fetchfilings.discover import discovered_sources
+                sources = discovered_sources(data, company_id=args.company_id)
+                if not sources:
+                    raise ValueError("no discovered sources to collect")
+            else:
+                if args.company_id:
+                    raise ValueError("--company-id requires --discovered")
+                sources = select(load_sources(args.team), args.source_id)
             if args.existing and len(sources) != 1:
                 raise ValueError("--existing requires exactly one --source-id")
             results = [collect(source, data, local=args.existing, provenance=args.provenance,
@@ -137,6 +161,13 @@ def main(argv=None):
                 collector_host=args.collector_host,
                 data_root=args.data_root,
                 limit=args.limit,
+                respect_robots=not args.no_robots))
+            return 0
+        if args.command == "discover":
+            from fetch.teams.fetchfilings.discover import discover
+            _print(discover(
+                data_root=args.data_root,
+                company_id=args.company_id,
                 respect_robots=not args.no_robots))
             return 0
         raise ValueError("unknown command")
