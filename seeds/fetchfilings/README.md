@@ -6,13 +6,18 @@
 - `channel=sec_edgar`: crawl via CIK / data.sec.gov
 - `channel=local_ir`: official IR / local exchange only (no invented CIK)
 
-## Discover latest periodic filings
+## Weekly continuous refresh
 
 ```text
+./fetch refresh --team fetchfilings
 ./fetch discover --team fetchfilings
-./fetch run --team fetchfilings --discovered
 ./fetch run --team fetchfilings --discovered --company-id microsoft
 ```
 
-Discovery writes `~/.local/share/fetch/fetchfilings/discoveries/current.json` (pointers only).
-Annual forms: 10-K / 20-F / 40-F. Quarterly: 10-Q when present. No invented filings.
+Cadence is **weekly** (Sunday local). `refresh` discovers SEC submissions for the 40
+`sec_edgar` companies, collects primary documents, and writes
+`~/.local/share/fetch/fetchfilings/disclosures/current.json` for company-page links.
+`local_ir` (10) keeps official IR URLs only — no invented CIK.
+
+Discovery ledger: `discoveries/current.json`. Annual forms: 10-K / 20-F / 40-F.
+Quarterly: 10-Q when present.

@@ -8,7 +8,14 @@
     "local_ir_when": "ticker_without_sec_cik",
     "non_listed": "excluded_until_ticker_or_cik_registered",
     "continuous": true,
-    "scheduled_phase": "not_enabled_yet"
+    "scheduled_phase": "weekly",
+    "schedule": {
+      "cadence": "weekly",
+      "weekday": "sunday",
+      "hour_local": 3,
+      "host": "macmini",
+      "command": "fetch refresh --team fetchfilings"
+    }
   },
   "counts": {
     "listed_total": 50,

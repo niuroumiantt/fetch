@@ -102,6 +102,18 @@ def main(argv=None):
     discover_cmd.add_argument("--data-root", help="override ~/.local/share/fetch/fetchfilings")
     discover_cmd.add_argument("--no-robots", action="store_true", help="tests/fixtures only")
 
+    refresh_cmd = sub.add_parser(
+        "refresh",
+        help="weekly discover+collect+disclosures for listed filings; no adoption")
+    refresh_cmd.add_argument("--team", required=True, choices=("fetchfilings",))
+    refresh_cmd.add_argument("--company-id", help="one listed company_id; default = full universe")
+    refresh_cmd.add_argument("--data-root", help="override ~/.local/share/fetch/fetchfilings")
+    refresh_cmd.add_argument("--discover-only", action="store_true",
+                             help="skip primary-document collect")
+    refresh_cmd.add_argument("--prior-disclosures",
+                             help="merge history from an existing company_disclosures.json")
+    refresh_cmd.add_argument("--no-robots", action="store_true", help="tests/fixtures only")
+
     args = parser.parse_args(argv)
     try:
         if args.command == "check-config":
@@ -169,6 +181,15 @@ def main(argv=None):
                 data_root=args.data_root,
                 company_id=args.company_id,
                 respect_robots=not args.no_robots))
+            return 0
+        if args.command == "refresh":
+            from fetch.teams.fetchfilings.refresh import refresh
+            _print(refresh(
+                data_root=args.data_root,
+                company_id=args.company_id,
+                respect_robots=not args.no_robots,
+                collect_filings=not args.discover_only,
+                prior_disclosures=args.prior_disclosures))
             return 0
         raise ValueError("unknown command")
     except (OSError, ValueError, KeyError, TypeError, subprocess.SubprocessError) as error:
