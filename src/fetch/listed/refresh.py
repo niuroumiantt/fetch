@@ -1,8 +1,8 @@
 """Weekly multi-lane refresh for the listed-company universe.
 
-Runs company-scoped lanes together: SEC filings, US equity quotes, IR pages,
-and a status pass for fetchspec catalog overlap. Public-stats / research-pub /
-GPU-cloud quote bootstraps stay on their own calendars.
+Runs company-scoped lanes together: SEC filings, equity quotes (Nasdaq + Yahoo
+for non-US), IR pages, and a status pass for fetchspec catalog overlap.
+Public-stats / research-pub / GPU-cloud quote bootstraps stay on their own calendars.
 """
 from __future__ import annotations
 

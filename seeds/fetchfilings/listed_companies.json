@@ -27,7 +27,8 @@
         "team": "listed",
         "cadence": "weekly",
         "status": "enabled",
-        "scope": "NASDAQ_NYSE_tickers"
+        "scope": "nasdaq_nyse_plus_yahoo_non_us",
+        "providers": ["nasdaq", "yahoo_chart"]
       },
       "investor_relations": {
         "team": "listed",
@@ -154,7 +155,7 @@
       "ticker": "NYSE:ARES",
       "cik": "0001176948",
       "hq_country": "US",
-      "ir_url": "https://www.aresmgmt.com/",
+      "ir_url": "https://ir.ares.com/",
       "channel": "sec_edgar",
       "roles": [
         "investor"
@@ -168,6 +169,7 @@
       "cik": "0001130464",
       "hq_country": "US",
       "ir_url": "https://ir.blackhillscorp.com",
+      "ir_access": "bot_wall",
       "channel": "sec_edgar",
       "roles": [
         "utility"
@@ -262,7 +264,7 @@
       "ticker": "SSE:688256",
       "cik": null,
       "hq_country": "CN",
-      "ir_url": "https://www.cambricon.com/investor",
+      "ir_url": "https://www.cambricon.com/index.php?m=content&c=index&a=lists&catid=64",
       "channel": "local_ir",
       "roles": [
         "chip"
@@ -361,6 +363,7 @@
       "cik": "0001297996",
       "hq_country": "US",
       "ir_url": "https://investor.digitalrealty.com",
+      "ir_access": "bot_wall",
       "channel": "sec_edgar",
       "roles": [
         "colo"
@@ -374,6 +377,7 @@
       "cik": "0001551182",
       "hq_country": "US",
       "ir_url": "https://www.eaton.com/us/en-us/company/investor-relations.html",
+      "ir_access": "timeout",
       "channel": "sec_edgar",
       "roles": [
         "electrical",
@@ -415,6 +419,7 @@
       "cik": "0001526125",
       "hq_country": "CN",
       "ir_url": "https://investors.gds-services.com",
+      "ir_access": "bot_wall",
       "channel": "sec_edgar",
       "roles": [
         "colo"
@@ -522,12 +527,13 @@
       "ticker": "TYO:7011",
       "cik": null,
       "hq_country": "JP",
-      "ir_url": null,
+      "ir_url": "https://www.mhi.com/finance",
       "channel": "local_ir",
       "roles": [
         "electrical",
         "utility"
-      ]
+      ],
+      "quote_note": "parent_mhi_listing"
     },
     {
       "company_id": "modine-airedale",
@@ -549,7 +555,7 @@
       "ticker": "STO:MTRS",
       "cik": null,
       "hq_country": "SE",
-      "ir_url": null,
+      "ir_url": "https://www.munters.com/en-gb/investors/",
       "channel": "local_ir",
       "roles": [
         "cooling"
@@ -563,7 +569,7 @@
       "ticker": "NASDAQ:NBIS",
       "cik": "0001513845",
       "hq_country": "NL",
-      "ir_url": "https://nebius.com/investors",
+      "ir_url": "https://nebius.com/investor-hub",
       "channel": "sec_edgar",
       "roles": [
         "neocloud"
@@ -576,11 +582,12 @@
       "ticker": "TYO:9613",
       "cik": null,
       "hq_country": "JP",
-      "ir_url": "https://www.nttdata.com/global/en/about-us/ir",
+      "ir_url": "https://www.nttdata.com/global/en/investors",
       "channel": "local_ir",
       "roles": [
         "colo"
-      ]
+      ],
+      "quote_status": "delisted"
     },
     {
       "company_id": "nvidia",
@@ -629,7 +636,7 @@
       "ticker": "LON:RR",
       "cik": null,
       "hq_country": "GB",
-      "ir_url": null,
+      "ir_url": "https://www.rolls-royce.com/investors.aspx",
       "channel": "local_ir",
       "roles": [
         "electrical"
@@ -656,7 +663,7 @@
       "ticker": "ETR:ENR",
       "cik": "0001830056",
       "hq_country": "DE",
-      "ir_url": null,
+      "ir_url": "https://www.siemens-energy.com/global/en/home/investor-relations.html",
       "channel": "sec_edgar",
       "roles": [
         "electrical",
@@ -713,6 +720,7 @@
       "cik": "0001508475",
       "hq_country": "CN",
       "ir_url": "https://ir.vnet.com",
+      "ir_access": "bot_wall",
       "channel": "sec_edgar",
       "roles": [
         "colo"
@@ -725,7 +733,7 @@
       "ticker": "HEL:WRT1V",
       "cik": null,
       "hq_country": "FI",
-      "ir_url": null,
+      "ir_url": "https://www.wartsila.com/investors",
       "channel": "local_ir",
       "roles": [
         "electrical",

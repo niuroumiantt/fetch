@@ -1,11 +1,14 @@
 """Offline tests for listed-universe multi-lane refresh."""
-import json
-import tempfile
 import unittest
 from pathlib import Path
-from unittest import mock
 
-from fetch.listed.quotes import normalize, us_listed
+from fetch.listed.quotes import (
+    normalize,
+    normalize_yahoo,
+    non_us_listed,
+    us_listed,
+    yahoo_symbol_for,
+)
 from fetch.listed.refresh import SPEC_OVERLAP, specs_status
 from fetch.teams.fetchfilings.adapters.ir_page import Adapter as IrAdapter
 
@@ -18,6 +21,14 @@ class ListedRefresh(unittest.TestCase):
         self.assertTrue(any(r["company_id"] == "microsoft" for r in rows))
         self.assertFalse(any(r["company_id"] == "cambricon" for r in rows))
         self.assertTrue(all(r["symbol"] for r in rows))
+
+    def test_non_us_yahoo_targets(self):
+        rows = {r["company_id"]: r for r in non_us_listed()}
+        self.assertEqual(rows["cambricon"]["symbol"], "688256.SS")
+        self.assertEqual(rows["schneider-electric"]["symbol"], "SU.PA")
+        self.assertEqual(rows["zhongtian-technology"]["symbol"], "600522.SS")
+        self.assertNotIn("ntt-data", rows)  # delisted
+        self.assertEqual(yahoo_symbol_for("LON:RR"), "RR.L")
 
     def test_normalize_quote(self):
         info = {
@@ -34,6 +45,23 @@ class ListedRefresh(unittest.TestCase):
         value = normalize("MSFT", info, summary)
         self.assertEqual(value["price"], 100.5)
         self.assertEqual(value["market_cap"], 1_000_000_000.0)
+
+    def test_normalize_yahoo(self):
+        chart = {
+            "meta": {
+                "symbol": "SU.PA",
+                "currency": "EUR",
+                "regularMarketPrice": 231.4,
+                "regularMarketTime": 1729862400,
+                "chartPreviousClose": 230.0,
+                "exchangeName": "PAR",
+            },
+        }
+        value = normalize_yahoo("SU.PA", chart)
+        self.assertEqual(value["price"], 231.4)
+        self.assertEqual(value["currency"], "EUR")
+        self.assertEqual(value["provider"], "Yahoo")
+        self.assertAlmostEqual(value["change"], 1.4)
 
     def test_ir_adapter_packages_identity(self):
         source = {
